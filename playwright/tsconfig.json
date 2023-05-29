@@ -1,9 +1,9 @@
 {
     "extends": "../tsconfig.json",
-    "include": ["./**/*.ts", "tests/specs/e2e.spec.xts"],
+    "include": ["./**/*.ts", "tests/support/other/test-data.js"],
     "exclude": [],
     "compilerOptions": {
-        "types": ["cypress", "@percy/cypress"],
+        "types": ["node"],
         "lib": ["es2015", "dom"],
         "isolatedModules": false,
         "allowJs": true,

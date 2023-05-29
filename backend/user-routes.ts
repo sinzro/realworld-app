@@ -11,6 +11,7 @@ import {
   getUserByUsername,
   searchUsers,
   removeUserFromResults,
+  removeUserByUsername,
 } from "./database";
 import { User } from "../src/models/user";
 import { ensureAuthenticated, validateMiddleware } from "./helpers";
@@ -76,6 +77,16 @@ router.get("/profile/:username", (req, res) => {
 
   res.status(200);
   res.json({ user });
+});
+
+
+router.delete("/profile/:username", (req, res) => {
+  const { username } = req.params;
+
+  // Delete the user by username
+  removeUserByUsername(username);
+
+  res.sendStatus(204);
 });
 
 router.patch(
