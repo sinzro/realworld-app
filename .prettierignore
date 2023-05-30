@@ -5,3 +5,4 @@ data
 build
 coverage
 src/aws-exports*
+src/**

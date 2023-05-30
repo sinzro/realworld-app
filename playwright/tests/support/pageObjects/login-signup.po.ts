@@ -1,98 +1,91 @@
-import { Locator, Page} from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 
 export class LoginSignUpPage {
+  private readonly usernameInputEl: Locator;
+  private readonly passwordInputEl: Locator;
+  private readonly rememberMeCheckEl: Locator;
+  private readonly signInButtonEl: Locator;
+  private readonly signUpLinkEl: Locator;
 
-    private readonly usernameInputEl: Locator;
-    private readonly passwordInputEl: Locator;
-    private readonly rememberMeCheckEl: Locator;
-    private readonly signInButtonEl: Locator;
-    private readonly signUpLinkEl: Locator;
+  private readonly signUpFirstNameInputEl: Locator;
+  private readonly signUpLastNameInputEl: Locator;
+  private readonly signUpUsernameInputEl: Locator;
+  private readonly signUpPasswordInputEl: Locator;
+  private readonly signUpConfirmPasswordInputEl: Locator;
+  private readonly signUpButtonEl: Locator;
+  private readonly signInLinkEl: Locator;
 
-    private readonly signUpFirstNameInputEl: Locator;
-    private readonly signUpLastNameInputEl: Locator;
-    private readonly signUpUsernameInputEl: Locator;
-    private readonly signUpPasswordInputEl: Locator;
-    private readonly signUpConfirmPasswordInputEl: Locator;
-    private readonly signUpButtonEl: Locator;
-    private readonly signInLinkEl: Locator;
+  readonly page: Page;
+  private readonly newUserDialogEl: Locator;
 
-    readonly page: Page;
-    private readonly newUserDialogEl: Locator;
+  constructor(page: Page) {
+    this.usernameInputEl = page.getByLabel("Username");
+    this.passwordInputEl = page.locator("#password");
+    this.rememberMeCheckEl = page.getByLabel("Remember me");
+    this.signInButtonEl = page.locator("[data-test='signin-submit']");
+    this.signUpLinkEl = page.locator('[data-test="signup"]');
 
+    this.signUpFirstNameInputEl = page.getByLabel("First name *");
+    this.signUpLastNameInputEl = page.getByLabel("Last name *");
+    this.signUpUsernameInputEl = page.getByLabel("Username *");
+    this.signUpPasswordInputEl = page.locator("#password");
+    this.signUpConfirmPasswordInputEl = page.locator("#confirmPassword");
+    this.signUpButtonEl = page.locator("[data-test='signup-submit']");
+    this.signInLinkEl = page.locator("[data-test='signin']");
 
-    constructor(page: Page) {
+    this.page = page;
+    this.newUserDialogEl = page.getByRole("dialog");
+  }
 
-        
+  getUsernameInputEl(): Locator {
+    return this.usernameInputEl;
+  }
 
-        this.usernameInputEl = page.getByLabel("Username");
-        this.passwordInputEl = page.locator("#password");
-        this.rememberMeCheckEl = page.getByLabel("Remember me");
-        this.signInButtonEl = page.locator("[data-test='signin-submit']");
-        this.signUpLinkEl = page.locator('[data-test="signup"]');
+  getPasswordInputEl(): Locator {
+    return this.passwordInputEl;
+  }
 
-        this.signUpFirstNameInputEl = page.getByLabel("First name *");
-        this.signUpLastNameInputEl = page.getByLabel("Last name *");
-        this.signUpUsernameInputEl = page.getByLabel("Username *");
-        this.signUpPasswordInputEl = page.locator("#password");
-        this.signUpConfirmPasswordInputEl = page.locator("#confirmPassword");
-        this.signUpButtonEl = page.locator("[data-test='signup-submit']");
-        this.signInLinkEl = page.locator("[data-test='signin']");
-        
-        this.page = page;
-        this.newUserDialogEl = page.getByRole("dialog");
+  getRememberMeCheckEl(): Locator {
+    return this.rememberMeCheckEl;
+  }
 
-    }
+  getSignInButtonEl(): Locator {
+    return this.signInButtonEl;
+  }
 
-    getUsernameInputEl(): Locator {
-        return this.usernameInputEl;
-    };
+  getSignupLinkEl(): Locator {
+    return this.signUpLinkEl;
+  }
 
-    getPasswordInputEl(): Locator {
-        return this.passwordInputEl;
-    };
+  getSignUpFirstNameInputEl(): Locator {
+    return this.signUpFirstNameInputEl;
+  }
 
-    getRememberMeCheckEl(): Locator {
-        return this.rememberMeCheckEl;
-    };
+  getSignUpLastNameInputEl(): Locator {
+    return this.signUpLastNameInputEl;
+  }
 
-    getSignInButtonEl(): Locator {
-        return this.signInButtonEl;
-    };
+  getSignUpUsernameInputEl(): Locator {
+    return this.signUpUsernameInputEl;
+  }
 
-    getSignupLinkEl(): Locator {
-        return this.signUpLinkEl;
-    };
+  getSignUpPasswordInputEl(): Locator {
+    return this.signUpPasswordInputEl;
+  }
 
-    getSignUpFirstNameInputEl(): Locator {
-        return this.signUpFirstNameInputEl;
-    };
+  getSignUpConfirmPasswordInputEl(): Locator {
+    return this.signUpConfirmPasswordInputEl;
+  }
 
-    getSignUpLastNameInputEl(): Locator {
-        return this.signUpLastNameInputEl;
-    };
+  getSignUpButtonEl(): Locator {
+    return this.signUpButtonEl;
+  }
 
-    getSignUpUsernameInputEl(): Locator {
-        return this.signUpUsernameInputEl;
-    };
+  getSignInLinkEl(): Locator {
+    return this.signInLinkEl;
+  }
 
-    getSignUpPasswordInputEl(): Locator {
-        return this.signUpPasswordInputEl;
-    };
-
-    getSignUpConfirmPasswordInputEl(): Locator {
-        return this.signUpConfirmPasswordInputEl;
-    };
-
-    getSignUpButtonEl(): Locator {
-        return this.signUpButtonEl;
-    };
-
-    getSignInLinkEl(): Locator {
-        return this.signInLinkEl;
-    };
-
-    getNewUserDialogEl(): Locator {
-        return this.newUserDialogEl;
-    }
-    
+  getNewUserDialogEl(): Locator {
+    return this.newUserDialogEl;
+  }
 }

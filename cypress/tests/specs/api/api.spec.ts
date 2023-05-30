@@ -17,63 +17,63 @@ import { testData as td } from "@pw/support/other/test-data";
 // to delete below
 
 describe("api tests", () => {
-    const baf = new BankAccountsFlow();
+  const baf = new BankAccountsFlow();
 
-    beforeEach(() => {
-        cy.log("loginByApi && reset database before each test");
-        cy.task("db:reset");
-        cy.loginByApi(constants.existingUser.username, constants.existingUser.password).then(
-            (response: Cypress.Response<any>) => {
-                expect(response.isOkStatusCode).to.be.true;
-            }
-        );
-    });
+  beforeEach(() => {
+    cy.log("loginByApi && reset database before each test");
+    cy.task("db:reset");
+    cy.loginByApi(constants.existingUser.username, constants.existingUser.password).then(
+      (response: Cypress.Response<any>) => {
+        expect(response.isOkStatusCode).to.be.true;
+      }
+    );
+  });
 
-    it("get a list of bank accounts", () => {
-        baf.getAllBankAccountsByApi();
-    });
+  it("get a list of bank accounts", () => {
+    baf.getAllBankAccountsByApi();
+  });
 
-    it("delete a bank account", () => {
-        const bankAccountId = baf.getBankAccountIdFromDB(constants.existingUser.userid);
-        baf.deleteBankAccountByApi(bankAccountId);
-    });
+  it("delete a bank account", () => {
+    const bankAccountId = baf.getBankAccountIdFromDB(constants.existingUser.userid);
+    baf.deleteBankAccountByApi(bankAccountId);
+  });
 
-    it("get a user profile by username", () => {
-        cy.log("get specific profile successfully");
-        const username = db.users[1].username;
-        cy.request({
-            method: "Get",
-            url: `${constants.apiURL}/users/profile/${username}`,
-        }).then((response) => {
-            cy.log("request was successful");
-            expect(response.isOkStatusCode).to.be.true;
-            expect(response.body.user).to.have.property("firstName");
-        });
+  it("get a user profile by username", () => {
+    cy.log("get specific profile successfully");
+    const username = db.users[1].username;
+    cy.request({
+      method: "Get",
+      url: `${constants.apiURL}/users/profile/${username}`,
+    }).then((response) => {
+      cy.log("request was successful");
+      expect(response.isOkStatusCode).to.be.true;
+      expect(response.body.user).to.have.property("firstName");
     });
+  });
 
-    it("create a new comment for a transactions", () => {
-        cy.log("post a transaction comment successfully");
-        cy.request({
-            method: "Post",
-            url: `${constants.apiURL}/comments/${td.transactionId}`,
-            body: {
-                content: td.commentContent,
-            },
-        }).then((response) => {
-            cy.log("post was successful");
-            expect(response.isOkStatusCode).to.be.true;
-        });
+  it("create a new comment for a transactions", () => {
+    cy.log("post a transaction comment successfully");
+    cy.request({
+      method: "Post",
+      url: `${constants.apiURL}/comments/${td.transactionId}`,
+      body: {
+        content: td.commentContent,
+      },
+    }).then((response) => {
+      cy.log("post was successful");
+      expect(response.isOkStatusCode).to.be.true;
     });
+  });
 
-    it("get list of users", () => {
-        cy.log("get list of users successfully");
-        cy.request({
-            method: "Get",
-            url: `${constants.apiURL}/users/`,
-        }).then((response) => {
-            cy.log("request was successful");
-            expect(response.isOkStatusCode).to.be.true;
-            expect(response.body.results).to.have.length.greaterThan(0);
-        });
+  it("get list of users", () => {
+    cy.log("get list of users successfully");
+    cy.request({
+      method: "Get",
+      url: `${constants.apiURL}/users/`,
+    }).then((response) => {
+      cy.log("request was successful");
+      expect(response.isOkStatusCode).to.be.true;
+      expect(response.body.results).to.have.length.greaterThan(0);
     });
+  });
 });

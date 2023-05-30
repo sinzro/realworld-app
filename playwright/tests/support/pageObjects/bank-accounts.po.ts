@@ -2,87 +2,88 @@ import { APIRequestContext, Page, Locator } from "@playwright/test";
 import { BasePage } from "./base.po";
 
 export class BankAccountsPage extends BasePage {
+  // bank accounts
+  private readonly bankAccountListEl: Locator;
+  private readonly createNewBankAccountBtnEl: Locator;
+  private readonly deleteBankAccountBtnEl: Locator;
 
-    // bank accounts
-    private readonly bankAccountListEl: Locator;
-    private readonly createNewBankAccountBtnEl: Locator;
-    private readonly deleteBankAccountBtnEl: Locator;
+  // create new bank account
+  private readonly bankNameInputEl: Locator;
+  private readonly routingNumberInputEl: Locator;
+  private readonly accountNumberInputEl: Locator;
+  private readonly saveBtnEl: Locator;
 
-    // create new bank account
-    private readonly bankNameInputEl: Locator;
-    private readonly routingNumberInputEl: Locator;
-    private readonly accountNumberInputEl: Locator;
-    private readonly saveBtnEl: Locator;
+  page: Page;
+  request: APIRequestContext;
 
-    page: Page;
-    request: APIRequestContext; 
+  constructor(page: Page, request: APIRequestContext) {
+    super(page);
+    this.page = page;
+    this.request = request;
 
-    constructor(page: Page, request: APIRequestContext) {
-        super(page);
-        this.page = page;
-        this.request = request;
+    this.bankAccountListEl = page.locator('[data-test="bankaccount-list"]');
+    this.createNewBankAccountBtnEl = page.locator('[data-test="bankaccount-new"]');
+    this.deleteBankAccountBtnEl = page.locator('[data-test="bankaccount-delete"]');
 
-        this.bankAccountListEl = page.locator('[data-test="bankaccount-list"]');
-        this.createNewBankAccountBtnEl = page.locator('[data-test="bankaccount-new"]');
-        this.deleteBankAccountBtnEl = page.locator('[data-test="bankaccount-delete"]');
+    this.bankNameInputEl = page.getByPlaceholder("Bank Name");
+    this.routingNumberInputEl = page.getByPlaceholder("Routing Number");
+    this.accountNumberInputEl = page.getByPlaceholder("Account Number");
+    this.saveBtnEl = page.locator('[data-test="bankaccount-submit"]');
+  }
 
-        this.bankNameInputEl = page.getByPlaceholder("Bank Name");
-        this.routingNumberInputEl = page.getByPlaceholder("Routing Number");
-        this.accountNumberInputEl = page.getByPlaceholder("Account Number");
-        this.saveBtnEl = page.locator('[data-test="bankaccount-submit"]');
+  getBankAccountListEl(): Locator {
+    return this.bankAccountListEl;
+  }
 
-    }
+  /**
+   *
+   * @param bankName
+   * @returns parent locator for the bank account that's not deleted
+   */
+  getBankAccountByName(bankName: string): Locator {
+    // get the parent locator for the bank account - https://github.com/microsoft/playwright/issues/13286
+    const newBankAccount = this.page.locator(`text="${bankName}"`);
+    const parentNewBankAccount: Locator = this.getBankAccountListEl().locator("li", {
+      has: newBankAccount,
+    });
 
-    getBankAccountListEl(): Locator {
-        return this.bankAccountListEl;
-    }
+    return parentNewBankAccount;
+  }
 
-    /**
-     * 
-     * @param bankName 
-     * @returns parent locator for the bank account that's not deleted
-     */
-    getBankAccountByName(bankName: string): Locator {
-        // get the parent locator for the bank account - https://github.com/microsoft/playwright/issues/13286
-        const newBankAccount = this.page.locator(`text="${bankName}"`);
-        const parentNewBankAccount: Locator = this.getBankAccountListEl().locator('li', { has: newBankAccount});
+  getDeleteBtnForBankAccount(bankAccount: Locator): Locator {
+    return bankAccount.locator(this.deleteBankAccountBtnEl);
+  }
 
-        return parentNewBankAccount;
-    }
+  getDeletedBankAccountByName(bankName: string): Locator {
+    const deletedBankAccount = this.page.locator(`text="${bankName} (Deleted)"`);
+    const parentDeletedBankAccount: Locator = this.getBankAccountListEl().locator("li", {
+      has: deletedBankAccount,
+    });
 
-    getDeleteBtnForBankAccount(bankAccount: Locator): Locator {
-        return bankAccount.locator(this.deleteBankAccountBtnEl);
-    }
+    return parentDeletedBankAccount;
+  }
 
-    getDeletedBankAccountByName(bankName: string): Locator {
-        const deletedBankAccount = this.page.locator(`text="${bankName} (Deleted)"`);
-        const parentDeletedBankAccount: Locator = this.getBankAccountListEl().locator('li', { has: deletedBankAccount});
+  getCreateNewBankAccountBtnEl(): Locator {
+    return this.createNewBankAccountBtnEl;
+  }
 
-        return parentDeletedBankAccount;
-    }
+  getDeleteBankAccountBtnEl(): Locator {
+    return this.deleteBankAccountBtnEl;
+  }
 
-    getCreateNewBankAccountBtnEl(): Locator {
-        return this.createNewBankAccountBtnEl;
-    }
+  getBankNameInputEl(): Locator {
+    return this.bankNameInputEl;
+  }
 
-    getDeleteBankAccountBtnEl(): Locator {
-        return this.deleteBankAccountBtnEl;
-    }
+  getRoutingNumberInputEl(): Locator {
+    return this.routingNumberInputEl;
+  }
 
-    getBankNameInputEl(): Locator {
-        return this.bankNameInputEl;
-    }
+  getAccountNumberInputEl(): Locator {
+    return this.accountNumberInputEl;
+  }
 
-    getRoutingNumberInputEl(): Locator {
-        return this.routingNumberInputEl;
-    }
-
-    getAccountNumberInputEl(): Locator {
-        return this.accountNumberInputEl;
-    }
-
-    getSaveBtnEl(): Locator {
-        return this.saveBtnEl;
-    }
-
+  getSaveBtnEl(): Locator {
+    return this.saveBtnEl;
+  }
 }

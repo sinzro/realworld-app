@@ -79,7 +79,6 @@ router.get("/profile/:username", (req, res) => {
   res.json({ user });
 });
 
-
 router.delete("/profile/:username", (req, res) => {
   const { username } = req.params;
 
