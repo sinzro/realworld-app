@@ -64,8 +64,9 @@ module.exports = defineConfig({
   },
   e2e: {
     baseUrl: "http://localhost:3000",
-    specPattern: "cypress/tests/**/*.spec.{js,jsx,ts,tsx}",
+    specPattern: "cypress/tests/specs/*/*.spec.{js,jsx,ts,tsx}",
     supportFile: "cypress/support/e2e.ts",
+    pageLoadTimeout: 10000,
     viewportHeight: 1000,
     viewportWidth: 1280,
     setupNodeEvents(on, config) {
@@ -85,6 +86,11 @@ module.exports = defineConfig({
         async "db:seed"() {
           // seed database with test data
           const { data } = await axios.post(`${testDataApiEndpoint}/seed`);
+          return data;
+        },
+        async "db:reset"() {
+          // seed database with test data
+          const { data } = await axios.post(`${testDataApiEndpoint}/reset`);
           return data;
         },
 

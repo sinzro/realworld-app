@@ -101,6 +101,30 @@ export const seedDatabase = () => {
   return;
 };
 
+export const resetDatabase = () => {
+  const testSeed = JSON.parse(
+    fs.readFileSync(path.join(process.cwd(), "data", "database-seed.json"), "utf-8")
+  );
+
+  const initialState: DbSchema = {
+    users: [],
+    contacts: [],
+    bankaccounts: [],
+    transactions: [],
+    likes: [],
+    comments: [],
+    notifications: [],
+    banktransfers: [],
+  };
+
+  // Clear the current state of the database
+  db.setState(initialState).write();
+
+  // Overwrite the database with the seed data
+  db.setState(testSeed).write();
+  return;
+};
+
 export const getAllUsers = () => db.get(USER_TABLE).value();
 
 export const getAllPublicTransactions = () =>
@@ -205,6 +229,13 @@ export const updateUserById = (userId: string, edits: Partial<User>) => {
   const user = getUserById(userId);
 
   db.get(USER_TABLE).find(user).assign(edits).write();
+};
+
+// remove user by username
+export const removeUserByUsername = (username: string) => {
+  const user = getUserByUsername(username);
+
+  db.get(USER_TABLE).remove(user).write();
 };
 
 // Contact
